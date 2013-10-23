@@ -84,10 +84,20 @@ uint8_t FwDownLoadFlag = 0;
 #define GPIO_PORT_BEEP	GPIOB
 #define GPIO_PIN_BEEP	GPIO_Pin_12
 
+//const char OsStr[8][4] = {{"00 "}, {"04 "}, {"08 "}, {"0C "}, {"10 "}, {"14 "}, {"18 "}, {"1C"}};
+const char OsStr[10][4] = {{"01 "}, {"02 "}, {"03 "}, {"04 "}, {"05 "}, {"06 "}, {"07 "}, {"08"}, {"09"}, {"10"}};
+
+const uint8_t taReboot[7] = {0x99, 0x00, 0x07, 0xAA, 0x00, 0x00, 0x4A};
+
+const uint8_t taConnectPassW[5] = {'T', 'U', 'O', 'A', 'N'};
+
+const char BpsStr[3][20] = {{"57600-N-1"}, {"115200-N-1"}, {"230400-N-1"}};
+
 void TaBeepThread_entry();
 uint8_t taD_AutoUpdateOsd();
 void taD_Display(uint8_t percent);
 File_Type taD_GetFileType(uint8_t objname[]);
+uint8_t usart_GetData(rt_device_t Dev, uint8_t *Buffer, uint8_t Size, uint32_t TimeOut);
 
 void taD_KeyPortInit()
 {
@@ -166,7 +176,11 @@ uint8_t lib_ChecksumAdd(uint8_t *pArray, uint8_t byNum)
     }
     return sum;
 }
-
+/*void taD_SelfUpdate(uint8_t* data)
+{
+	uint8_t chksum = 0;
+        for()
+}*/
 void ta_CmdPaser(uint8_t Data)
 {
     if (taCmdMatchIndex < 3)
@@ -224,34 +238,6 @@ void ta_CmdPaser(uint8_t Data)
             }
             ComTimeOutHandle((void *)0);
             //taCmdMatchIndex = 0;
-#if 0
-            if (lib_ChecksumAdd(taFileBuffer, 6) == taFileBuffer[6])
-            {
-                rt_size_t RecByte = 0;
-                uint8_t abyTmp[3];
-                abyTmp[0] = 0x06;
-                pCom232->write(pCom232, 0, abyTmp, 1);
-                while (1)
-                {
-                    rt_thread_delay(500);
-                    RecByte = pCom232->read(pCom232, 0, taFileBuffer, 41);
-                    if (RecByte)
-                    {
-                        if
-                    }
-            }
-        }
-        if (lib_ChecksumAdd(taFileBuffer, 40) == taFileBuffer[40])
-            {
-                uint32_t offset;
-                uint8_t abyTmp[3];
-                offset = *((uint32_t *)&taFileBuffer[4]);
-                pSpiFlash->write(pSpiFlash, offset, &taFileBuffer[8], 32);
-                abyTmp[0] = 0x06;
-                pCom232->write(pCom232, 0, abyTmp, 1);
-            }
-            taCmdMatchIndex = 0;
-#endif
         }
     }
 }
@@ -260,6 +246,7 @@ void taD_IdleHandle()
 {
     rt_size_t RsBytes = 0;
     uint8_t RcvData = 0;
+    //uint8_t RcvData[7] = {0};
     uint8_t Key = taD_GetKeyValue();
     if (Key == TadKey_Start)
     {
@@ -286,6 +273,42 @@ void taD_IdleHandle()
     RsBytes = pCom485->read(pCom485, 0, &RcvData, 1);		//用485烧写固件
     if (RsBytes)
     {
+#if 0
+        uint8_t buffer[41] = {0};
+        uint32_t offset = 0;
+        uint8_t ack = 0x06;
+
+        if(lib_ChecksumAdd(RcvData, 6) != RcvData[6])
+        {
+            return ;
+        }
+
+        switch(RcvData[5])
+        {
+        case 0x1B:
+            pCom485->control(pCom485, RT_SERIAL_CMD_SETBPS, (void *)BpsStr[0]);
+            break;
+        case 0x1c:
+            pCom485->control(pCom485, RT_SERIAL_CMD_SETBPS, (void *)BpsStr[1]);
+            break;
+        case 0xff:
+            pCom485->control(pCom485, RT_SERIAL_CMD_SETBPS, (void *)BpsStr[2]);
+            break;
+        default:
+            break;
+        }
+        pCom485->write(pCom485, 0, &ack, 1);
+        rt_thread_delay(1000);
+
+        while(usart_GetData(pCom485, buffer, 41, 100))
+        {
+            
+            offset = (((uint32_t)taFileBuffer[4])<<24) | (((uint32_t)taFileBuffer[5])<<16) | (((uint32_t)taFileBuffer[6])<<8) | ((uint32_t)taFileBuffer[7]);
+            pSpiFlash->write(pSpiFlash, offset, &buffer[8], 32);
+            pCom485->write(pCom485, 0, &ack, 1);
+        }
+        pCom485->control(pCom485, RT_SERIAL_CMD_SETBPS, (void *)BpsStr[CurBps]);
+#endif
         ta_CmdPaser(RcvData);
         rt_timer_start(ComTimer);
     }
@@ -431,15 +454,6 @@ uint8_t WaitKey()
         }
     }
 }
-
-//const char OsStr[8][4] = {{"00 "}, {"04 "}, {"08 "}, {"0C "}, {"10 "}, {"14 "}, {"18 "}, {"1C"}};
-const char OsStr[10][4] = {{"01 "}, {"02 "}, {"03 "}, {"04 "}, {"05 "}, {"06 "}, {"07 "}, {"08"}, {"09"}, {"10"}};
-
-const uint8_t taReboot[7] = {0x99, 0x00, 0x07, 0xAA, 0x00, 0x00, 0x4A};
-
-const uint8_t taConnectPassW[5] = {'T', 'U', 'O', 'A', 'N'};
-
-const char BpsStr[3][20] = {{"57600-N-1"}, {"115200-N-1"}, {"230400-N-1"}};
 
 void taD_MenuHandle()
 {
@@ -588,7 +602,7 @@ uint8_t usart_GetData(rt_device_t Dev, uint8_t *Buffer, uint8_t Size, uint32_t T
 
     for (i = 0; i < TimeOut; i++)
     {
-        if (pCom485->read(pCom485, 0, pBuf, 1))
+        if (pCom485->read(pCom485, 0, pBuf, 41))
         {
             Size--;
             if (!Size)
@@ -610,12 +624,12 @@ uint8_t taD_ConnectBootLoader(uint32_t preBps, uint32_t DwnBps, uint32_t RetryTi
     uint32_t i, j;
     uint8_t tmpRxBuffer[5];
     uint8_t *pBuffer;
-    
+
     pLcd1602->write(pLcd1602, -1, SelectedObj.FileName, 32);
     pLcd1602->control(pLcd1602, DispConnecting, NULL);
     rt_sem_release(&lcd_writesem);
     rt_thread_delay(200);
-    
+
     //pLcd1602->control(pLcd1602, DispConnecting, (void *)0);
     for (i = 0; i < RetryTimes; i++)
     {
@@ -1337,46 +1351,56 @@ void taD_ConnectHandle()
 
 uint8_t taD_AutoUpdateOsd(uint8_t* reply)
 {
-    uint8_t Updateflag = 0;
-
     if(!reply[5])	/*球机flash中无pinyin，更新*/
     {
-        LCD_write_command(0x01);
-        rt_thread_delay(1000);
-        pLcd1602->write(pLcd1602, 0, "pinyin_tol.bin..", 16);
+        if(rt_mutex_take(LcdMutex, RT_WAITING_FOREVER) == RT_EOK)
+        {
+            pLcd1602->write(pLcd1602, 0, "pinyin_tol.bin..", 16);
+            rt_mutex_release(LcdMutex);
+        }
+
         if(!taD_AutoUpdateXfer(*thePinyinObj))
         {
             return 0;
         }
     }
-    
+
     if(!reply[7])
     {
-        LCD_write_command(0x01);
-        rt_thread_delay(1000);
-        pLcd1602->write(pLcd1602, 0, "hzk14.bin......", 16);
+        if(rt_mutex_take(LcdMutex, RT_WAITING_FOREVER) == RT_EOK)
+        {
+            pLcd1602->write(pLcd1602, 0, "hzk14.bin......", 16);
+            rt_mutex_release(LcdMutex);
+        }
+
         if(!taD_AutoUpdateXfer(*theHzkobj))
         {
             return 0;
         }
     }
-    
+
     if(!reply[6])
     {
-        LCD_write_command(0x01);
-        rt_thread_delay(1000);
-        pLcd1602->write(pLcd1602, 0, "asc16_spec.bin..", 16);
+        if(rt_mutex_take(LcdMutex, RT_WAITING_FOREVER) == RT_EOK)
+        {
+            pLcd1602->write(pLcd1602, 0, "asc16_spec.bin..", 16);
+            rt_mutex_release(LcdMutex);
+        }
+
         if(!taD_AutoUpdateXfer(*theASCIIObj))
         {
             return 0;
         }
     }
-    
+
     if(!reply[8])
     {
-        LCD_write_command(0x01);
-        rt_thread_delay(1000);
-        pLcd1602->write(pLcd1602, 0, "TaMenuFile......", 16);
+        if(rt_mutex_take(LcdMutex, RT_WAITING_FOREVER) == RT_EOK)
+        {
+            pLcd1602->write(pLcd1602, 0, "TaMenuFile......", 16);
+            rt_mutex_release(LcdMutex);
+        }
+
         if(!taD_AutoUpdateXfer(*theMenuObj))
         {
             return 0;
@@ -1384,15 +1408,17 @@ uint8_t taD_AutoUpdateOsd(uint8_t* reply)
     }
     else if(reply[9] < (theMenuObj->FileName[19] - 48))
     {
-        LCD_write_command(0x01);
-        rt_thread_delay(1000);
-        pLcd1602->write(pLcd1602, 0, "TaMenuFile......", 16);
+        if(rt_mutex_take(LcdMutex, RT_WAITING_FOREVER) == RT_EOK)
+        {
+            pLcd1602->write(pLcd1602, 0, "TaMenuFile......", 16);
+            rt_mutex_release(LcdMutex);
+        }
+
         if(!taD_AutoUpdateXfer(*theMenuObj))
         {
             return 0;
         }
     }
-
     return 1;
 }
 

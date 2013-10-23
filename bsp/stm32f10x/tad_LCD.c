@@ -511,9 +511,13 @@ void lcd1602_ConnectDispThread(void *parameter)
         switch(LcdUserData.CurCmd)
         {
         case DispProcessing:
-            pLcd1602->write(pLcd1602, 16,str, 16);
-            sprintf(percent, "%d", LcdUserData.Percent);
-            pLcd1602->write(pLcd1602, 28, percent, 3);
+            if(rt_mutex_take(LcdMutex, RT_WAITING_FOREVER) == RT_EOK)
+            {
+	            pLcd1602->write(pLcd1602, 16,str, 16);
+	            sprintf(percent, "%d", LcdUserData.Percent);
+	            pLcd1602->write(pLcd1602, 28, percent, 3);
+                    rt_mutex_release(LcdMutex);
+            }
             break;
         case DispConnecting:
             pLcd1602->write(pLcd1602, 16, connect, 16);
