@@ -1,0 +1,9 @@
+.\obj\cpuport.o: ..\..\libcpu\arm\cortex-m3\cpuport.c
+.\obj\cpuport.o: ..\..\include\rtthread.h
+.\obj\cpuport.o: ..\..\include\rtdef.h
+.\obj\cpuport.o: ..\stm32f10x\rtconfig.h
+.\obj\cpuport.o: D:\Keil\ARM\RV31\Inc\stdarg.h
+.\obj\cpuport.o: ..\..\include\rtdebug.h
+.\obj\cpuport.o: ..\..\include\rtservice.h
+.\obj\cpuport.o: ..\..\include\rtm.h
+.\obj\cpuport.o: ..\..\include\rtthread.h

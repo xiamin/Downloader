@@ -1,0 +1,10 @@
+.\obj\mem.o: ..\..\src\mem.c
+.\obj\mem.o: ..\..\include\rthw.h
+.\obj\mem.o: ..\..\include\rtthread.h
+.\obj\mem.o: ..\..\include\rtdef.h
+.\obj\mem.o: ..\stm32f10x\rtconfig.h
+.\obj\mem.o: D:\Keil\ARM\RV31\Inc\stdarg.h
+.\obj\mem.o: ..\..\include\rtdebug.h
+.\obj\mem.o: ..\..\include\rtservice.h
+.\obj\mem.o: ..\..\include\rtm.h
+.\obj\mem.o: ..\..\include\rtthread.h

@@ -1,0 +1,11 @@
+.\obj\application.o: application.c
+.\obj\application.o: ..\stm32f10x\board.h
+.\obj\application.o: ..\..\include\rtthread.h
+.\obj\application.o: ..\..\include\rtdef.h
+.\obj\application.o: ..\stm32f10x\rtconfig.h
+.\obj\application.o: D:\Keil\ARM\RV31\Inc\stdarg.h
+.\obj\application.o: ..\..\include\rtdebug.h
+.\obj\application.o: ..\..\include\rtservice.h
+.\obj\application.o: ..\..\include\rtm.h
+.\obj\application.o: ..\..\include\rtthread.h
+.\obj\application.o: led.h

@@ -1,0 +1,15 @@
+.\obj\dfs_fs.o: ..\..\components\dfs\src\dfs_fs.c
+.\obj\dfs_fs.o: ..\..\components\dfs\include\dfs_fs.h
+.\obj\dfs_fs.o: ..\..\components\dfs\include\dfs_def.h
+.\obj\dfs_fs.o: ..\..\include\rtthread.h
+.\obj\dfs_fs.o: ..\..\include\rtdef.h
+.\obj\dfs_fs.o: ..\stm32f10x\rtconfig.h
+.\obj\dfs_fs.o: D:\Keil\ARM\RV31\Inc\stdarg.h
+.\obj\dfs_fs.o: ..\..\include\rtdebug.h
+.\obj\dfs_fs.o: ..\..\include\rtservice.h
+.\obj\dfs_fs.o: ..\..\include\rtm.h
+.\obj\dfs_fs.o: ..\..\include\rtthread.h
+.\obj\dfs_fs.o: D:\Keil\ARM\RV31\Inc\stdio.h
+.\obj\dfs_fs.o: ..\..\components\dfs\include\dfs_file.h
+.\obj\dfs_fs.o: ..\..\components\dfs\include\dfs.h
+.\obj\dfs_fs.o: D:\Keil\ARM\RV31\Inc\string.h

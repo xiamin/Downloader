@@ -1,0 +1,16 @@
+#the source insight project files
+TaDownloader*
+
+#IAR project files
+./bsp/stm32f10x/bak/*
+./bsp/stm32f10x/Debug/*
+./bsp/stm32f10x/obj/*
+./bsp/stm32f10x/settings/*
+Backup*
+
+*.orig
+project*
+*.ewp
+*.a
+*.o
+*.out

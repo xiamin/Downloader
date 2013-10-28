@@ -1,0 +1,10 @@
+.\obj\idle.o: ..\..\src\idle.c
+.\obj\idle.o: ..\..\include\rthw.h
+.\obj\idle.o: ..\..\include\rtthread.h
+.\obj\idle.o: ..\..\include\rtdef.h
+.\obj\idle.o: ..\stm32f10x\rtconfig.h
+.\obj\idle.o: D:\Keil\ARM\RV31\Inc\stdarg.h
+.\obj\idle.o: ..\..\include\rtdebug.h
+.\obj\idle.o: ..\..\include\rtservice.h
+.\obj\idle.o: ..\..\include\rtm.h
+.\obj\idle.o: ..\..\include\rtthread.h

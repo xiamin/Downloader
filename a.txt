@@ -1,0 +1,130 @@
+./bsp/stm32f10x/Libraries/SConscript:Import('RTT_ROOT')
+./bsp/stm32f10x/Libraries/SConscript:    path += [RTT_ROOT + '/components/CMSIS/Include']
+./bsp/stm32f10x/SConscript:Import('RTT_ROOT')
+./bsp/stm32f10x/SConstruct:if os.getenv('RTT_ROOT'):
+./bsp/stm32f10x/SConstruct:    RTT_ROOT = os.getenv('RTT_ROOT')
+./bsp/stm32f10x/SConstruct:    RTT_ROOT = os.path.normpath(os.getcwd() + '/../..')
+./bsp/stm32f10x/SConstruct:sys.path = sys.path + [os.path.join(RTT_ROOT, 'tools')]
+./bsp/stm32f10x/SConstruct:Export('RTT_ROOT')
+./bsp/stm32f10x/SConstruct:objs = PrepareBuilding(env, RTT_ROOT)
+./bsp/stm32f10x/SConstruct:    objs = objs + SConscript(RTT_ROOT + '/examples/gui/SConscript', variant_dir='build/examples/gui', duplicate=0)
+./components/dfs/SConscript:Import('RTT_ROOT')
+./components/dfs/SConscript:path = [RTT_ROOT + '/components/dfs', RTT_ROOT + '/components/dfs/include']
+./components/dfs/SConscript:    path = path + [RTT_ROOT + '/components/dfs/filesystems/yaffs2/yaffs', \
+./components/dfs/SConscript:                   RTT_ROOT + '/components/dfs/filesystems/yaffs2/yaffs/direct' ]
+./components/dfs/SConscript:    path = path + [RTT_ROOT + '/components/dfs/filesystems/nfs']
+./components/dfs/SConscript:    path = path + [RTT_ROOT + '/components/dfs/filesystems/romfs']
+./components/dfs/SConscript:    path = path + [RTT_ROOT + '/components/dfs/filesystems/devfs']
+./components/dfs/SConscript:    path = path + [RTT_ROOT + '/components/dfs/filesystems/uffs/src/inc', \
+./components/dfs/SConscript:        RTT_ROOT + '/components/dfs/filesystems/uffs'] #, \
+./components/dfs/SConscript:        # RTT_ROOT + '/components/dfs/filesystems/uffs/flash']
+./components/dfs/SConscript:    path = path + [RTT_ROOT + '/components/dfs/filesystems/jffs2/src', \
+./components/dfs/SConscript:        RTT_ROOT + '/components/dfs/filesystems/jffs2/kernel', \
+./components/dfs/SConscript:        RTT_ROOT + '/components/dfs/filesystems/jffs2/include', \
+./components/dfs/SConscript:        RTT_ROOT + '/components/dfs/filesystems/jffs2', \
+./components/dfs/SConscript:        RTT_ROOT + '/components/dfs/filesystems/jffs2/cyg/compress']
+./components/drivers/i2c/SConscript:Import('RTT_ROOT')
+./components/drivers/mtd/SConscript:Import('RTT_ROOT')
+./components/drivers/sdio/SConscript:Import('RTT_ROOT')
+./components/drivers/usb/usbdevice/SConscript:Import('RTT_ROOT')
+./components/drivers/usb/usbhost/SConscript:Import('RTT_ROOT')
+./components/libc/minilibc/SConscript:Import('RTT_ROOT')
+./components/libc/minilibc/SConscript:CPPPATH = [RTT_ROOT + '/components/libc/minilibc']
+./components/libc/SConscript:Import('RTT_ROOT')
+./components/libc/SConscript:list = os.listdir(os.path.join(RTT_ROOT, 'components', 'libc'))
+./components/libc/SConscript:    path = os.path.join(RTT_ROOT, 'components', 'libc', d)
+./components/libdl/SConscript:Import('RTT_ROOT')
+./components/libdl/SConscript:CPPPATH = [RTT_ROOT + '/components/libdl']
+./components/pthreads/SConscript:Import('RTT_ROOT')
+./components/pthreads/SConscript:CPPPATH = [RTT_ROOT + '/components/pthreads']
+./libcpu/SConscript:Import('RTT_ROOT')
+./libcpu/SConscript:CPPPATH = [RTT_ROOT + '/libcpu/' + rtconfig.ARCH + '/' + rtconfig.CPU, RTT_ROOT + '/libcpu/' + rtconfig.ARCH + '/common']
+./src/SConscript:Import('RTT_ROOT')
+./src/SConscript:CPPPATH = [RTT_ROOT + '/include']
+./tools/building.py:        RTT_ROOT = Rtt_Root.lower()
+./tools/building.py:        RTT_ROOT = Rtt_Root
+./tools/building.py:    if target_path.startswith(RTT_ROOT):
+./tools/building.py:        if src.startswith(RTT_ROOT):
+./tools/building.py:        src = src.replace(RTT_ROOT, '')
+./tools/building.py:        full_path = RTT_ROOT
+./tools/building.py:        dst = src.replace(RTT_ROOT, '')
+./tools/building.py:    do_copy_folder(os.path.join(RTT_ROOT, "tools"), os.path.join(target_path, "tools"))
+./tools/building.py:    do_copy_file(os.path.join(RTT_ROOT, 'AUTHORS'), os.path.join(target_path, 'AUTHORS'))
+./tools/building.py:    do_copy_file(os.path.join(RTT_ROOT, 'COPYING'), os.path.join(target_path, 'COPYING'))
+./tools/building.py:        RTT_ROOT = Rtt_Root.lower()
+./tools/building.py:        RTT_ROOT = Rtt_Root
+./tools/building.py:    if target_path.startswith(RTT_ROOT):
+./tools/building.py:        if src.startswith(RTT_ROOT):
+./tools/building.py:        dst = src.replace(RTT_ROOT, '')
+./tools/building.py:    do_copy_folder(os.path.join(RTT_ROOT, "tools"), os.path.join(target_path, "tools"))
+./tools/building.py:    do_copy_file(os.path.join(RTT_ROOT, 'AUTHORS'), os.path.join(target_path, 'AUTHORS'))
+./tools/building.py:    do_copy_file(os.path.join(RTT_ROOT, 'COPYING'), os.path.join(target_path, 'COPYING'))
+Binary file ./tools/building.pyc matches
+./tools/sconsui.py:        if os.environ.has_key('RTT_ROOT'):
+./tools/sconsui.py:            self.RTTRoot.set_path(os.environ['RTT_ROOT'])
+./tools/sconsui.py:        os.environ['RTT_ROOT'] = rtt_root
+bsp/stm32f10x/Libraries/SConscript:Import('RTT_ROOT')
+bsp/stm32f10x/Libraries/SConscript:    path += [RTT_ROOT + '/components/CMSIS/Include']
+bsp/stm32f10x/SConscript:Import('RTT_ROOT')
+bsp/stm32f10x/SConstruct:if os.getenv('RTT_ROOT'):
+bsp/stm32f10x/SConstruct:    RTT_ROOT = os.getenv('RTT_ROOT')
+bsp/stm32f10x/SConstruct:    RTT_ROOT = os.path.normpath(os.getcwd() + '/../..')
+bsp/stm32f10x/SConstruct:sys.path = sys.path + [os.path.join(RTT_ROOT, 'tools')]
+bsp/stm32f10x/SConstruct:Export('RTT_ROOT')
+bsp/stm32f10x/SConstruct:objs = PrepareBuilding(env, RTT_ROOT)
+bsp/stm32f10x/SConstruct:    objs = objs + SConscript(RTT_ROOT + '/examples/gui/SConscript', variant_dir='build/examples/gui', duplicate=0)
+components/dfs/SConscript:Import('RTT_ROOT')
+components/dfs/SConscript:path = [RTT_ROOT + '/components/dfs', RTT_ROOT + '/components/dfs/include']
+components/dfs/SConscript:    path = path + [RTT_ROOT + '/components/dfs/filesystems/yaffs2/yaffs', \
+components/dfs/SConscript:                   RTT_ROOT + '/components/dfs/filesystems/yaffs2/yaffs/direct' ]
+components/dfs/SConscript:    path = path + [RTT_ROOT + '/components/dfs/filesystems/nfs']
+components/dfs/SConscript:    path = path + [RTT_ROOT + '/components/dfs/filesystems/romfs']
+components/dfs/SConscript:    path = path + [RTT_ROOT + '/components/dfs/filesystems/devfs']
+components/dfs/SConscript:    path = path + [RTT_ROOT + '/components/dfs/filesystems/uffs/src/inc', \
+components/dfs/SConscript:        RTT_ROOT + '/components/dfs/filesystems/uffs'] #, \
+components/dfs/SConscript:        # RTT_ROOT + '/components/dfs/filesystems/uffs/flash']
+components/dfs/SConscript:    path = path + [RTT_ROOT + '/components/dfs/filesystems/jffs2/src', \
+components/dfs/SConscript:        RTT_ROOT + '/components/dfs/filesystems/jffs2/kernel', \
+components/dfs/SConscript:        RTT_ROOT + '/components/dfs/filesystems/jffs2/include', \
+components/dfs/SConscript:        RTT_ROOT + '/components/dfs/filesystems/jffs2', \
+components/dfs/SConscript:        RTT_ROOT + '/components/dfs/filesystems/jffs2/cyg/compress']
+components/drivers/i2c/SConscript:Import('RTT_ROOT')
+components/drivers/mtd/SConscript:Import('RTT_ROOT')
+components/drivers/sdio/SConscript:Import('RTT_ROOT')
+components/drivers/usb/usbdevice/SConscript:Import('RTT_ROOT')
+components/drivers/usb/usbhost/SConscript:Import('RTT_ROOT')
+components/libc/minilibc/SConscript:Import('RTT_ROOT')
+components/libc/minilibc/SConscript:CPPPATH = [RTT_ROOT + '/components/libc/minilibc']
+components/libc/SConscript:Import('RTT_ROOT')
+components/libc/SConscript:list = os.listdir(os.path.join(RTT_ROOT, 'components', 'libc'))
+components/libc/SConscript:    path = os.path.join(RTT_ROOT, 'components', 'libc', d)
+components/libdl/SConscript:Import('RTT_ROOT')
+components/libdl/SConscript:CPPPATH = [RTT_ROOT + '/components/libdl']
+components/pthreads/SConscript:Import('RTT_ROOT')
+components/pthreads/SConscript:CPPPATH = [RTT_ROOT + '/components/pthreads']
+libcpu/SConscript:Import('RTT_ROOT')
+libcpu/SConscript:CPPPATH = [RTT_ROOT + '/libcpu/' + rtconfig.ARCH + '/' + rtconfig.CPU, RTT_ROOT + '/libcpu/' + rtconfig.ARCH + '/common']
+src/SConscript:Import('RTT_ROOT')
+src/SConscript:CPPPATH = [RTT_ROOT + '/include']
+tools/building.py:        RTT_ROOT = Rtt_Root.lower()
+tools/building.py:        RTT_ROOT = Rtt_Root
+tools/building.py:    if target_path.startswith(RTT_ROOT):
+tools/building.py:        if src.startswith(RTT_ROOT):
+tools/building.py:        src = src.replace(RTT_ROOT, '')
+tools/building.py:        full_path = RTT_ROOT
+tools/building.py:        dst = src.replace(RTT_ROOT, '')
+tools/building.py:    do_copy_folder(os.path.join(RTT_ROOT, "tools"), os.path.join(target_path, "tools"))
+tools/building.py:    do_copy_file(os.path.join(RTT_ROOT, 'AUTHORS'), os.path.join(target_path, 'AUTHORS'))
+tools/building.py:    do_copy_file(os.path.join(RTT_ROOT, 'COPYING'), os.path.join(target_path, 'COPYING'))
+tools/building.py:        RTT_ROOT = Rtt_Root.lower()
+tools/building.py:        RTT_ROOT = Rtt_Root
+tools/building.py:    if target_path.startswith(RTT_ROOT):
+tools/building.py:        if src.startswith(RTT_ROOT):
+tools/building.py:        dst = src.replace(RTT_ROOT, '')
+tools/building.py:    do_copy_folder(os.path.join(RTT_ROOT, "tools"), os.path.join(target_path, "tools"))
+tools/building.py:    do_copy_file(os.path.join(RTT_ROOT, 'AUTHORS'), os.path.join(target_path, 'AUTHORS'))
+tools/building.py:    do_copy_file(os.path.join(RTT_ROOT, 'COPYING'), os.path.join(target_path, 'COPYING'))
+Binary file tools/building.pyc matches
+tools/sconsui.py:        if os.environ.has_key('RTT_ROOT'):
+tools/sconsui.py:            self.RTTRoot.set_path(os.environ['RTT_ROOT'])
+tools/sconsui.py:        os.environ['RTT_ROOT'] = rtt_root

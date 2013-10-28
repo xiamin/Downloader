@@ -1,0 +1,10 @@
+.\obj\ipc.o: ..\..\src\ipc.c
+.\obj\ipc.o: ..\..\include\rtthread.h
+.\obj\ipc.o: ..\..\include\rtdef.h
+.\obj\ipc.o: ..\stm32f10x\rtconfig.h
+.\obj\ipc.o: D:\Keil\ARM\RV31\Inc\stdarg.h
+.\obj\ipc.o: ..\..\include\rtdebug.h
+.\obj\ipc.o: ..\..\include\rtservice.h
+.\obj\ipc.o: ..\..\include\rtm.h
+.\obj\ipc.o: ..\..\include\rtthread.h
+.\obj\ipc.o: ..\..\include\rthw.h

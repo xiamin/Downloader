@@ -602,7 +602,7 @@ uint8_t usart_GetData(rt_device_t Dev, uint8_t *Buffer, uint8_t Size, uint32_t T
 
     for (i = 0; i < TimeOut; i++)
     {
-        if (pCom485->read(pCom485, 0, pBuf, 41))
+        if (pCom485->read(pCom485, 0, pBuf, 1))
         {
             Size--;
             if (!Size)
