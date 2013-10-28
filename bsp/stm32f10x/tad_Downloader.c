@@ -1565,13 +1565,15 @@ void TaDownLoaderInit()
 }
 
 extern struct rt_mutex SysInit;
-
+//rt_uint8_t tmp[512] = {0};
 void rt_TaDownLoader_thread_entry(void* parameter)
 {
     rt_thread_delay(1000);
 #if 1
     TaDownLoaderInit();
-
+   
+    //pSpiFlash->read(pSpiFlash, 0x0, tmp, 512);
+    
     while (1)
     {
         switch (tad_status)
